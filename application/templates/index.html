@@ -1,35 +1,26 @@
 {% extends "base.html" %}
-{% from "_formhelpers.html" import render_field %}
+<!--{% from "_formhelpers.html" import render_field %}-->
 
 {% block content %}
 
-<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" xmlns="http://www.w3.org/1999/html">
     <div class="well">
         <div class="row">
     <!--form start-->
-            <form action="" method="POST" role="form">
+            <form method="POST" role="form">
                 <!--<legend>Form Title</legend>-->
               {{ form.hidden_tag() }}
 
-                <!--<div class="form-group">-->
-                    <!--&lt;!&ndash;<label for="qrform">Enter text or URL</label>&ndash;&gt;-->
-                    <!--Enter text or URL<br>-->
-                    <!--{{ form.qrtext(size=80) }}-->
-                    <!--&lt;!&ndash;<input type="text" class="form-control" name="qrform" id="qrform" placeholder="Enter Text or URL...">&ndash;&gt;-->
-                    <!--{% for error in form.qrtext.errors %}-->
-                        <!--<span style="color: red;">[{{ error }}]</span>-->
-                    <!--{% endfor %}-->
-                <!--</div>-->
                 <div class="form-group">
-                        <!--{{ form.csrf_token }}-->
-                        <!--<label class="control-label" for="qrtext">Enter text or URL</label>-->
-                        <div class="controls">
-                            {{ render_field(form.qrtext) }}
-                        </div>
-
+                    {{ form.qrtext(type="text", class="form-control", placeholder="Enter Text or URL")}}
+                    {% for error in form.qrtext.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success">Generate QR Code</button>
+                    {{form.submit(name="form", class="btn btn-success")}}
+                    <!-- in above line we can pass additional attributes as kwargs**-->
+                    <!--Ref: http://flask.pocoo.org/snippets/107/-->
                 </div>
             </form>
         </div>
@@ -54,12 +45,12 @@
 </div>
 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
     <div class="row">
-        <form  action="" method="POST" role="form">
+        <form method="POST" role="form">
             <div class="form-group">
-                    File input<input type="file" id="QRInputFile">
-                <p class="help-block">Filetype: csv </p>
+                {{form.csvfileinput(type="file")}}
             </div>
-            <button type="submit" class="btn btn-warning">Generate Batch QR Codes</button>
+            {{form.submit(name="batchform", class="btn btn-info")}}
+            <!--<button type="submit" class="btn btn-warning">Generate Batch QR Codes</button>-->
         </form>
     </div>
     <div class="row">

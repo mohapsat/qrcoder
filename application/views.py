@@ -25,7 +25,7 @@ def index():
                                )
 
     if batchform.validate_on_submit():
-        inputFile = 'qr_fileinput.csv'
+        inputFile = batchform.qr_csvfileinput.data
         app.logger.info(inputFile)
         qrBatchJsonResponse = generate_qrcode_batch_csv(inputFile)
         app.logger.info(qrBatchJsonResponse)

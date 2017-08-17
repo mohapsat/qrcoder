@@ -2,16 +2,12 @@ import qrcode
 import json
 import requests
 import csv
-from imgurpython import ImgurClient
-# from .form import QRForm # import QRForm class from form like in views.py
+from werkzeug.utils import secure_filename
 from application import app
 
 
 def generate_qrcode(inputText):
     with app.app_context():
-
-        # form = QRForm()
-        # inputText = form.qrtext.data
 
         img = qrcode.make(inputText)
         img.save('qrcode.png')
@@ -38,13 +34,9 @@ def generate_qrcode_batch_csv(inputFile):
 
     with app.app_context():
 
-        # form = QRForm()
-        # inputText = form.qrtext.data
-
         with open(inputFile) as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='"')
             data = []
-
             master = []  # to store tuples of both
 
             for inputRow in reader:

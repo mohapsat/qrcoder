@@ -1,8 +1,9 @@
-import qrcode
-import json
-import requests
 import csv
-from werkzeug.utils import secure_filename
+import json
+
+import qrcode
+import requests
+
 from application import app
 
 
@@ -40,7 +41,7 @@ def generate_qrcode_batch_csv(inputFile):
             master = []  # to store tuples of both
 
             for inputRow in reader:
-                app.logger.info(inputRow)
+                app.logger.info("Input ROW: " + inputRow)
                 img = qrcode.make(inputRow)
                 img.save('qrcode_batch_overwrite.png')
 

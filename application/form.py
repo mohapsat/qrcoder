@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired
-    # for file upload ref: https://flask-wtf.readthedocs.io/en/latest/form.html#module-flask_wtf.file
+from flask_wtf.file import FileField
+# for file upload ref: https://flask-wtf.readthedocs.io/en/latest/form.html#module-flask_wtf.file
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
@@ -12,3 +12,4 @@ class QRForm(FlaskForm):
 
 class QRBatchForm(FlaskForm):
     csvfileinput = FileField()
+    submit = SubmitField('Generate Batch Codes')

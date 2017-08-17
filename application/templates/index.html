@@ -2,72 +2,15 @@
 <!--{% from "_formhelpers.html" import render_field %}-->
 
 {% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <h1>Welcome to QR Coder</h1>
+        <p>Qr Coder allows you to generate QR codes on demand (onetime or in batch)</p>
+        <p>
+            <a href="/onetime" class="btn btn-success btn-lg">OneOff Codes</a>
+            <a href="/batch" class="btn btn-info btn-lg">Batch Codes</a>
+        </p>
 
-<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" xmlns="http://www.w3.org/1999/html">
-    <div class="well">
-        <div class="row">
-    <!--form start-->
-            <form method="POST" role="form">
-                <!--<legend>Form Title</legend>-->
-              {{ form.hidden_tag() }}
-
-                <div class="form-group">
-                    {{ form.qrtext(type="text", class="form-control", placeholder="Enter Text or URL")}}
-                    {% for error in form.qrtext.errors %}
-                        <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}
-                </div>
-                <div class="form-group">
-                    {{form.submit(name="form", class="btn btn-success")}}
-                    <!-- in above line we can pass additional attributes as kwargs**-->
-                    <!--Ref: http://flask.pocoo.org/snippets/107/-->
-                </div>
-            </form>
-        </div>
-    </div>
-    <!--form end-->
-</div>
-
-<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-	{% if responseURL %}
-    <div class="row" align="center">
-        <img src="{{ responseURL }}" class="img-responsive" alt="{{form.qrtext.data}}">
-    </div>
-    <div class="row" align="center">
-        <kbd>{{ responseURL }}</kbd>
-    </div>
-    {% else %}
-        <div class="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong></strong> No Image Yet, Generate Something!
-        </div>
-    {% endif %}
-</div>
-<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-    <div class="row">
-        <form method="POST" role="form">
-            <div class="form-group">
-                {{form.csvfileinput(type="file")}}
-            </div>
-            {{form.submit(name="batchform", class="btn btn-info")}}
-            <!--<button type="submit" class="btn btn-warning">Generate Batch QR Codes</button>-->
-        </form>
-    </div>
-    <div class="row">
-        {% if responseFile %}
-        <a href="{{responseFile}}">Download Here</a>
-        {% else %}
-        <kbd>No File Requested</kbd>
-        {% endif %}
-    </div>
-    <div class="row">
-        {% if qrBatchJsonResponse %}
-            bs3-<textarea name="qrBatchJsonResponse" id="id-qrBatchJsonResponse" cols="30" rows="10">{{qrBatchJsonResponse}}</textarea>
-        {% else %}
-        <kbd>No JSON Response Requested</kbd>
-        {% endif %}
     </div>
 </div>
-
-
 {% endblock %}}

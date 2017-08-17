@@ -1,31 +1,42 @@
-from flask import render_template, flash, redirect, json
+from flask import render_template, flash, request
+
 from application import app
+from qrcode_generator import generate_qrcode, generate_qrcode_batch_csv
 # imports app variable from application package
 from .form import QRForm, QRBatchForm
-from qrcode_generator import generate_qrcode, generate_qrcode_batch_csv
 
+
+# two forms on the same page ref:
+# https://stackoverflow.com/questions/21949452/wtforms-two-forms-on-the-same-page
 
 # @app.route('/')
-@app.route('/index', methods=['GET','POST'])
-def index():
+@app.route('/onetime', methods=['GET', 'POST'])
+def onetime():
+    onetime_form = QRForm(request.form, prefix="onetime-form")
 
-    form = QRForm()
-    batchform = QRBatchForm()
-
-    if form.validate_on_submit():
-        responseURL = generate_qrcode(form.qrtext.data)
-        flash('You requested QR code for: "%s"' % form.qrtext.data)
+    if onetime_form.validate_on_submit():
+        responseURL = generate_qrcode(onetime_form.qrtext.data)
+        flash('You requested QR code for: "%s"' % onetime_form.qrtext.data)
         # app.logger.info(form.qrtext.data)
         # app.logger.info(responseURL)
 
         # return redirect('/index')
-        return render_template('index.html',
-                               form=form,
+
+        return render_template('onetime.html',
+                               lform=onetime_form,  # lform > form on the left
                                responseURL=responseURL
                                )
+    return render_template('onetime.html',
+                           lform=onetime_form,  # lform > form on the left
+                           )
 
-    if batchform.validate_on_submit():
-        inputFile = batchform.qr_csvfileinput.data
+
+@app.route('/batch', methods=['GET', 'POST'])
+def batch():
+    batch_form = QRBatchForm(request.form, prefix="batch-form")
+
+    if batch_form.validate_on_submit():
+        inputFile = batch_form.csvfileinput.data
         app.logger.info(inputFile)
         qrBatchJsonResponse = generate_qrcode_batch_csv(inputFile)
         app.logger.info(qrBatchJsonResponse)
@@ -34,12 +45,15 @@ def index():
         # app.logger.info(responseURL)
 
         # return redirect('/index')
-        return render_template('index.html',
-                               batchform=batchform,
+        return render_template('batch.html',
+                               rform=batch_form,
                                qrBatchJsonResponse=qrBatchJsonResponse
                                )
-
-    return render_template('index.html',
-                           form=form
-                           # batchform=batchform
+    return render_template('batch.html',
+                           rform=batch_form,
                            )
+
+
+@app.route('/index')
+def index():
+    return render_template('index.html')

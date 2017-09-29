@@ -1,0 +1,20 @@
+origin/HEAD
+to be deleted
+**************************
+->
+fatal: ambiguous argument 'origin/master...->': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+to be deleted
+**************************
+origin/master
+to be deleted
+**************************
+origin/batch
+changes not merged
+**************************
+origin/master:
+error: object 66906947e76f5cfff9a97e769ed08bd4f85a3503 is a tree, not a commit
+fatal: Invalid symmetric difference expression origin/master...origin/master:
+to be deleted
+**************************

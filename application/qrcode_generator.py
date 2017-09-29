@@ -1,6 +1,5 @@
 import csv
 import json
-
 import qrcode
 import requests
 
@@ -36,17 +35,17 @@ def generate_qrcode_batch_csv(inputFile):
     with app.app_context():
 
         with open(inputFile) as csvfile:
-            reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+            reader = csv.reader(csvfile)
             data = []
             master = []  # to store tuples of both
 
             for inputRow in reader:
-                app.logger.info("Input ROW: " + inputRow)
+                app.logger.info(inputRow)
                 img = qrcode.make(inputRow)
-                img.save('qrcode_batch_overwrite.png')
+                img.save('uploads/stub.png')
 
                 album = None
-                image_path = 'qrcode_batch_overwrite.png'
+                image_path = 'uploads/stub.png'
                 clientId = 'F5a0da0ee22b6b9' # Please get your own ClientId from imgur
 
                 url = "https://api.imgur.com/3/image"

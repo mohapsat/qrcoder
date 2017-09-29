@@ -1,18 +1,18 @@
-from flask import render_template, flash, request
-
-from application import app
+from flask import render_template, flash, request, redirect, logging
 from qrcode_generator import generate_qrcode, generate_qrcode_batch_csv
 # imports app variable from application package
-from .form import QRForm, QRBatchForm
+from .form import QRForm, QRBatchForm, LoginForm
+from werkzeug.utils import secure_filename
+from application import app
 
 
 # two forms on the same page ref:
 # https://stackoverflow.com/questions/21949452/wtforms-two-forms-on-the-same-page
 
-# @app.route('/')
+
 @app.route('/onetime', methods=['GET', 'POST'])
 def onetime():
-    onetime_form = QRForm(request.form, prefix="onetime-form")
+    onetime_form = QRForm(request.form)
 
     if onetime_form.validate_on_submit():
         responseURL = generate_qrcode(onetime_form.qrtext.data)
@@ -33,27 +33,62 @@ def onetime():
 
 @app.route('/batch', methods=['GET', 'POST'])
 def batch():
-    batch_form = QRBatchForm(request.form, prefix="batch-form")
+    batch_form = QRBatchForm(request.form)
 
     if batch_form.validate_on_submit():
-        inputFile = batch_form.csvfileinput.data
-        app.logger.info(inputFile)
-        qrBatchJsonResponse = generate_qrcode_batch_csv(inputFile)
-        app.logger.info(qrBatchJsonResponse)
-        flash('You requested Batch QR codes for: "%s"' % inputFile)
-        # app.logger.info(form.qrtext.data)
-        # app.logger.info(responseURL)
+        inputfile = 'sample.csv'
+        # inputfile = secure_filename(batch_form.inputfile.data.filename)
+        app.logger.info(inputfile)
 
-        # return redirect('/index')
-        return render_template('batch.html',
+        # batch_form.inputfile.data.save('uploads/' + inputfile)
+
+        if inputfile:
+            qrBatchJsonResponse = generate_qrcode_batch_csv('uploads/' + inputfile)
+            app.logger.info(qrBatchJsonResponse)
+            flash('You requested Batch QR codes for: %s' % 'uploads/' + inputfile)
+            # app.logger.info(form.qrtext.data)
+            # app.logger.info(responseURL)
+            return render_template('batch.html',
                                rform=batch_form,
                                qrBatchJsonResponse=qrBatchJsonResponse
-                               )
+                                   )
+
     return render_template('batch.html',
                            rform=batch_form,
                            )
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    # logger = logging.create_logger(app)
+    # logger.setLevel('INFO')
+
+    login_form = LoginForm(request.form)
+    # flash('Congrats!')
+
+    if login_form.validate_on_submit():
+        # responseURL = generate_qrcode(onetime_form.qrtext.data)
+        flash('Congrats! You have logged in as : "%s"' % login_form.username.data)
+        # app.logger.info(form.qrtext.data)
+        # app.logger.info(responseURL)
+
+        # return redirect('/index')
+
+        return render_template('login.html',
+                               loginform=login_form  # lform > form on the left
+                               # responseURL=responseURL
+                               )
+    return render_template('login.html',
+                           loginform=login_form  # lform > form on the left
+                           )
+@app.route('/')
 @app.route('/index')
 def index():
+
+    # return redirect('/login.html')
+    # login_form = LoginForm()
     return render_template('index.html')
+
+    # return render_template('login.html',
+    #                        loginform=login_form  # lform > form on the left
+    #                        )

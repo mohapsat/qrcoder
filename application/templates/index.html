@@ -1,53 +1,15 @@
 {% extends "base.html" %}
-{% from "_formhelpers.html" import render_field %}
 
 {% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <h1>Welcome to QR Coder</h1>
+        <p>Qr Coder allows you to generate QR codes on demand (onetime or in batch)</p>
+        <p>
+            <a href="/onetime" class="btn btn-success btn-lg">OneOff Codes</a>
+            <a href="/batch" class="btn btn-info btn-lg">Batch Codes</a>
+        </p>
 
-<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-    <div class="row">
-<!--form start-->
-        <form action="" method="POST" role="form">
-            <!--<legend>Form Title</legend>-->
-          {{ form.hidden_tag() }}
-
-            <!--<div class="form-group">-->
-                <!--&lt;!&ndash;<label for="qrform">Enter text or URL</label>&ndash;&gt;-->
-                <!--Enter text or URL<br>-->
-                <!--{{ form.qrtext(size=80) }}-->
-                <!--&lt;!&ndash;<input type="text" class="form-control" name="qrform" id="qrform" placeholder="Enter Text or URL...">&ndash;&gt;-->
-                <!--{% for error in form.qrtext.errors %}-->
-                    <!--<span style="color: red;">[{{ error }}]</span>-->
-                <!--{% endfor %}-->
-            <!--</div>-->
-            <div class="form-group">
-                    <!--{{ form.csrf_token }}-->
-                    <!--<label class="control-label" for="qrtext">Enter text or URL</label>-->
-                    <div class="controls">
-                        {{ render_field(form.qrtext) }}
-                    </div>
-
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-success">Generate QR Code</button>
-            </div>
-        </form>
     </div>
-    <!--form end-->
-</div>
-
-<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-	{% if responseURL %}
-    <div class="row" align="center">
-        <img src="{{ responseURL }}" class="img-responsive" alt="{{form.qrtext.data}}">
-    </div>
-    <div class="row" align="center">
-        <kbd>{{ responseURL }}</kbd>
-    </div>
-    {% else %}
-        <div class="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong></strong> No Image Yet, Generate Something!
-        </div>
-    {% endif %}
 </div>
 {% endblock %}}

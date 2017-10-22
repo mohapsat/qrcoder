@@ -1,0 +1,35 @@
+#!/bin/sh
+# This program will populate log file with information about current branches:
+# it will define which branches do not have any difference with the master 
+# (can be closed/deleted) and which have some unpulled changes. 
+#
+# !! Before the run create a file in same location as your script (might add later
+# creation of the file) and define the path in log_file variable.
+# 
+# Run in the git repo location with full path, eg: 
+# ~/projects/check_branches_to_close
+#
+#
+# Prepared by Gosha Sawicka
+
+
+
+#echo "foo"
+branches=$(git branch -r)
+#log_file="/Users/gsawicka/projects/branch_closing_log"
+log_file="/c/Users/smohapatra/Desktop/PROJECTS/qrcoder/branch_closing_log"
+
+#echo $branches
+for bName in $branches:
+do
+  echo "$bName"
+#  echo "$(git diff origin/master...$bName)"
+if [[ -z "$(git diff origin/master...$bName)" ]] 
+then
+  echo "to be deleted"
+else 
+#  echo "$(git diff origin/master...$bName)"
+  echo "changes not merged"
+fi
+  echo "**************************"
+done&>$log_file

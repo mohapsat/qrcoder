@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <div class="row">
+        <form name="rform" method="POST" role="form" action="{{url_for('batch')}}">
+            {{ rform.hidden_tag() }}
+            <div class="form-group">
+                {{rform.inputfile}}
+            </div>
+            {{rform.submit(class="btn btn-info")}}
+        </form>
+    </div>
+    <div class="row">
+        {% if responseFile %}
+        <a href="{{responseFile}}">Download Here</a>
+        {% else %}
+        <kbd>No File Requested</kbd>
+        {% endif %}
+    </div>
+    <div class="row">
+        {% if qrBatchJsonResponse %}
+        <textarea name="qrBatchJsonResponse" id="id-qrBatchJsonResponse" cols="30"
+                  rows="10">{{qrBatchJsonResponse}}</textarea>
+        {% else %}
+        <kbd>No JSON Response Requested</kbd>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}}

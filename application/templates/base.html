@@ -32,22 +32,25 @@
       	<!-- Collect the nav links, forms, and other content for toggling -->
       	<div class="collapse navbar-collapse navbar-ex1-collapse">
       		<ul class="nav navbar-nav">
-      			<li class="active"><a href="#">About</a></li>
+                <li class="active"><a href="/onetime">OneOff</a></li>
+                <li class="active"><a href="/batch">Batch</a></li>
       		</ul>
 
       		<ul class="nav navbar-nav navbar-right">
-      			<li><a href="#">Contact Us</a></li>
+      			<li><a href="https://github.com/mohapsat">GitHub</a></li>
       		</ul>
       	</div><!-- /.navbar-collapse -->
       </nav>
       
         {% with messages = get_flashed_messages() %}
           {% if messages %}
-            <ul>
+            <!--<ul>-->
             {% for message in messages %}
-                <li>{{ message }} </li>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-info">{{ message }}</li>
+                </ul>
             {% endfor %}
-            </ul>
+            <!--</ul>-->
           {% endif %}
         {% endwith %}
 

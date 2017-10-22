@@ -3,7 +3,7 @@
 >**Batch and real-time QR code generator** in python and flask
 
 
-###DEMO:
+### DEMO:
 
 ![](https://raw.githubusercontent.com/mohapsat/qrcoder/master/qrcoder_demo.gif)
 

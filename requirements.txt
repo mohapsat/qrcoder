@@ -13,7 +13,7 @@ Jinja2==2.9.6
 MarkupSafe==1.0
 olefile==0.44
 Pillow==4.2.1
-py==1.4.34
+py==1.10.0
 pytest==3.2.1
 qrcode==5.3
 requests==2.18.3
